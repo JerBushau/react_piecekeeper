@@ -5,7 +5,7 @@ const Actions = props =>
   <div className="actions">
     <div tabIndex="0"
          className="accumulate-button"
-         onClick={ () => props.handleAccumulation() } >accumulate</div>
+         onClick={ e => props.handleAccumulation(e) } >accumulate</div>
     <div className="add-space-button"
          onClick={ () => props.toggleAddSpaceDropdown() }>add space
       <div className="add-space-dropdown hidden">
