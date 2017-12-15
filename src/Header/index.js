@@ -7,7 +7,7 @@ const Header = props =>
       <div className="logo">
         <img src={ logo } alt="agricola logo" />
       </div>
-      {/* <h3 className="site-title">Piecekeeper</h3>*/}
+      <h3 className="site-title">Piecekeeper</h3>
   </header>;
 
 export default Header;
