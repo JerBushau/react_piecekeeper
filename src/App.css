@@ -1,0 +1,519 @@
+/*
+GENERAL STYLE
+*/
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+.wrapper {
+  margin: 0;
+  min-height: 100vh;
+  width: 100%;
+  background: #444;
+}
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  background: url('imgs/farm.svg') no-repeat bottom/101%,
+  linear-gradient(to bottom right, #fe8c00 45%, #f83600);
+  font-family: 'Lato', sans-serif;
+  animation: fade 1.4s;
+}
+
+header {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  font-family: 'Lobster Two', cursive;
+}
+
+.site-title {
+  margin: 0;
+  font-weight: normal;
+  font-size: 3.2em;
+  background: linear-gradient(to bottom, #6441a5, #2a0845 90%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  animation: fade-in-from-bottom 1s;
+}
+
+.logo {
+  max-width: 488px;
+  max-height: 107px;
+  padding: 5px;
+  animation: fade-in-from-bottom 1s;
+}
+
+img {
+  width: 100%;
+  height: 100%;
+}
+
+nav {
+  display: flex;
+  flex-wrap: wrap;
+  position: relative;
+  justify-content: center;
+  align-items: center;
+  min-height: 75px;
+  width: 100%;
+  max-width: 1248px;
+  animation: fade-in-from-bottom 1s;
+}
+
+.actions {
+  display: flex;
+}
+
+/*
+SPACES & SPACE CONTAINERS
+*/
+
+.space-container {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  width : 100%;
+  max-width : 1248px;
+  margin-bottom: 100px;
+  animation: fade-in-from-bottom 1s;
+}
+
+.space {
+  display: flex;
+  cursor: pointer;
+  position: relative;
+  background-color: #efecf6;
+  flex-direction: column;
+  justify-content: space-between;
+  align-items: center;
+  margin: 10px;
+  width: 225px;
+  padding: 10px 10px 15px;
+  box-shadow: 0 5px 15px rgba(68, 68, 68, 0.6);
+  min-height: 166px;
+  transition: all 0.1s;
+  /*dont select text on click*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.space:active {
+  box-shadow: 0 1px 5px rgba(68, 68, 68, 0.6);
+}
+
+.name {
+  margin: 0 0 10px;
+  font-size: 1.7em;
+  font-weight: bold;
+  margin: 0;
+  text-align: center;
+}
+
+.number {
+  margin: 5px 0;
+  font-size: 2.2em;
+  font-weight: bold;
+}
+
+.type {
+  margin: 0;
+}
+
+/*
+SPACE BACKGROUNDS (based on type)
+*/
+
+.wood,
+.clay,
+.reed,
+.food,
+.sheep,
+.stone,
+.boar,
+.cow {
+  background-size: 30%;
+  background-position: 5% 85%;
+  background-repeat: no-repeat;
+}
+
+.wood {
+  background-image: url('imgs/tree.png');
+}
+
+.clay {
+  background-image: url('imgs/clay.png');
+}
+
+.reed {
+  background-image: url('imgs/reed.png');
+  background-size: 25%;
+}
+
+.food {
+  background-image: url('imgs/food.png');
+}
+
+.sheep {
+  background-image: url('imgs/sheep.png');
+}
+
+.boar {
+  background-image: url('imgs/pig.png');
+}
+
+.cow {
+  background-image: url('imgs/cow.ico');
+}
+
+.stone {
+  background-image: url('imgs/stone.png');
+}
+
+/*
+SPACE MENU BUTTONS
+*/
+
+.prev-value,
+.delete-button {
+  position: absolute;
+  background: rgba(53, 255, 7, 0.8);
+  padding: 3px 6px;
+  top: 6px;
+  left: 6px;
+  margin-left: 0;
+  transition: all 0.3s;
+  box-shadow: 0 1px 2px rgba(68, 68, 68, 0.6);
+}
+
+.prev-value:active,
+.delete-button:active {
+  box-shadow: 0 0px 1px rgba(68, 68, 68, 0.6);
+}
+
+.delete-button {
+  background: rgba(249, 0, 0, 0.8);
+  font-weight: bold;
+  left: calc(100% - 27px);
+  right: 6px;
+  border: none;
+}
+
+/*
+MAIN BUTTONS
+*/
+
+.accumulate-button,
+.add-space-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+  background-color: #efecf6;
+  border: none;
+  min-width: 110px;
+  height: 50px;
+  margin: 10px;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(68, 68, 68, 0.6);
+  transition: all 0.4s;
+  /*dont select text on click*/
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  -khtml-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.accumulate-button {
+  position: relative;
+  overflow: hidden;
+  transition: box-shadow 0.1s ;
+}
+
+.accumulate-button:active {
+  box-shadow: 0 1px 5px #444;
+}
+
+.accumulate-button:after {
+  content: '';
+  display: block;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120px;
+  height: 120px;
+  margin-left: -60px;
+  margin-top: -60px;
+  background: #6441a5;
+  border-radius: 100%;
+  opacity: 0.5;
+  transform: scale(0);
+}
+
+.accumulate-button:after {
+  visibility: hidden;
+}
+
+.accumulate-button:focus:after {
+  visibility: visible;
+}
+
+.accumulate-button:not(:active):after {
+  animation: ripple 0.7s;
+}
+
+.add-space-button {
+  position: relative;
+}
+
+.add-space-dropdown {
+  display: flex;
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  left: 115px;
+  width: auto;
+  margin-left: 0;
+  transition: all 0.4s;
+  z-index: 10000;
+}
+
+.add-space-dropdown button {
+  display: flex;
+  border: none;
+  cursor: pointer;
+  justify-content: center;
+  align-items: center;
+  text-decoration: none;
+  padding: 0.7em;
+  width: 95px;
+  margin: 0.3em;
+  background: #6441a5;
+  color: #fff;
+  box-shadow: 0 1px 5px #444;
+  z-index: 10000;
+}
+
+.add-space-dropdown a:active{
+  background: #2a0845;
+}
+
+/*
+ROUND INFO
+*/
+
+.round-info-container {
+  position: absolute;
+  padding: 10px;
+  left: 12px;
+  bottom: 0;
+  margin: 10px;
+  background: #6441a5;
+  color: #fff;
+  box-shadow: 0 5px 15px rgba(68, 68, 68, 0.6);
+  transition: all 0.4s;
+  z-index: 5;
+}
+
+.round-info {
+  display: flex;
+}
+
+.round-info-container h1 {
+  margin:  0 10px;
+  text-align: center;
+  font-weight: normal;
+  color: #fff;
+ /* background: linear-gradient(to bottom, #6441a5, #2a0845);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;*/
+}
+
+/*
+STATE CLASSES
+*/
+
+.active {
+  background: #6441a5;
+  color: #fff;
+  box-shadow: 0 1px 5px #444;
+}
+
+.hidden {
+  opacity: 0;
+  margin-left: 75px;
+  visibility: hidden;
+}
+
+/*
+ANIMATIONS
+*/
+
+@keyframes fade-in-from-bottom {
+  0% {
+    opacity: 0;
+    margin-top: 15px;
+  }
+  100% {
+    opacity: 1;
+    margin-top: 0;
+  }
+}
+
+@keyframes ripple {
+  0% {
+    transform: scale(0);
+  }
+  20% {
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1);
+  }
+}
+
+@keyframes fade {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes pulse {
+  0%{
+    transform: scale(1.1, 1.3);
+  }
+  100%{
+    transform: scale(1, 1);
+  }
+}
+
+/*
+MEDIA QUERIES
+*/
+
+@media (max-width: 1090px) {
+  .add-space-dropdown {
+    flex-direction: column;
+    top: 55px;
+    left: -5px;
+  }
+
+  .add-space-dropdown a {
+    padding: 20px 0;
+  }
+
+  .round-info {
+    display: flex;
+    justify-content: center;
+  }
+
+  .name {
+    margin: 0;
+  }
+
+  .type {
+    margin: 0;
+  }
+}
+
+@media (max-width: 800px) {
+  .space {
+    width: 150px;
+    min-height: auto;
+    justify-content: space-between;
+  }
+
+  .name {
+    font-size: 1.3em;
+  }
+
+  .number {
+    font-size: 1.7em;
+    margin: 0;
+  }
+
+  .type {
+    font-size: 1em
+  }
+
+  header {
+    flex-direction: column;
+  }
+
+  .site-title {
+    font-size: 0.7em;
+  }
+
+  .round-info-container {
+    position: static;
+    width: 100%;
+  }
+
+  .wood,
+  .clay,
+  .reed,
+  .food,
+  .sheep,
+  .stone,
+  .boar,
+  .cow {
+    background-size: 25%;
+  }
+
+  .gather-button {
+    margin-top: 0;
+  }
+
+  .delete-button {
+    left: 83%;
+  }
+
+  .site-title {
+    font-size: 2.7em;
+  }
+}
+
+@media (max-width: 600px) {
+  .space {
+    width: 90px;
+    margin: 3px;
+  }
+
+  .gather-button {
+    padding: 3px;
+    display: none;
+  }
+
+  .delete-button {
+    left: 71%;
+  }
+
+  .name {
+    font-size: 1em;
+  }
+
+  .number {
+    font-size: 1.1em;
+  }
+
+  .type {
+    font-size: 0.65em
+  }
+}
