@@ -9,13 +9,15 @@ const SpaceContainer = props =>
     { props.activeSpaces.map(sp =>
       <Space key={ sp.id }
              sp={ sp }
-             gather={ props.gather } />) }
+             handleClick={ e => props.spaceClickHandler(e, sp.id) }
+             editing={ props.editing } />) }
   </section>;
 
 
 SpaceContainer.propTypes = {
   activeSpaces: PropTypes.array.isRequired,
-  gather: PropTypes.func.isRequired
+  spaceClickHandler: PropTypes.func.isRequired,
+  editing: PropTypes.bool.isRequired
 };
 
 export default SpaceContainer;

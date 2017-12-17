@@ -7,26 +7,27 @@ import SpaceContainer from './SpaceContainer';
 
 class App extends Component {
   state = {
-    id: 8,
-
+    dropdownActive: false,
+    editing: false,
+    isHavestRound: false,
+    // could generate these based off one object
     activeSpaces: [
-      { id: 0, name: 'Copse', type: 'wood', defaultAmount: 1, accumulatedAmount: 1 },
-      { id: 1, name: 'Grove', type: 'wood', defaultAmount: 2, accumulatedAmount: 2 },
-      { id: 2, name: 'Forest', type: 'wood', defaultAmount: 3, accumulatedAmount: 3 },
-      { id: 3, name: 'Clay Pit', type: 'clay', defaultAmount: 1, accumulatedAmount: 1 },
-      { id: 4, name: 'Hollow', type: 'clay', defaultAmount: 2, accumulatedAmount: 2 },
-      { id: 5, name: 'Reed Bank', type: 'reed', defaultAmount: 1, accumulatedAmount: 1 },
-      { id: 6, name: 'Fishing', type: 'food', defaultAmount: 1, accumulatedAmount: 1 },
-      { id: 7, name: 'Traveling Players', type: 'food', defaultAmount: 1, accumulatedAmount: 1 }
+      { id: 0, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'wood', name: 'Copse' },
+      { id: 1, previousAmount: 0, defaultAmount: 2, accumulatedAmount: 2, type: 'wood', name: 'Grove' },
+      { id: 2, previousAmount: 0, defaultAmount: 3, accumulatedAmount: 3, type: 'wood', name: 'Forest' },
+      { id: 3, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'clay', name: 'Clay Pit' },
+      { id: 4, previousAmount: 0, defaultAmount: 2, accumulatedAmount: 2, type: 'clay', name: 'Hollow' },
+      { id: 5, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'reed', name: 'Reed Bank' },
+      { id: 6, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'food', name: 'Fishing' },
+      { id: 7, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'food', name: 'Traveling Players' }
     ],
-
+    // same obj could be used here
     randomOrderSpaces: [
-      { name: 'Sheep', type: 'sheep', defaultAmount: 1, accumulatedAmount: 1 },
-      { name: 'Cattle', type: 'cow', defaultAmount: 1, accumulatedAmount: 1 },
-      { name: 'Pig', type: 'boar', defaultAmount: 1, accumulatedAmount: 1 },
-      { name: 'Stone Quarry', type: 'stone', defaultAmount: 1, accumulatedAmount: 1 }
+      { previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'sheep', name: 'Sheep' },
+      { previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'cow', name: 'Cattle' },
+      { previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'boar', name: 'Pig' },
+      { previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Stone Quarry' }
     ],
-
     roundInfo: {
       harvestRounds: [4, 7, 9, 11, 13, 14],
       currentRound: 1,
@@ -37,18 +38,15 @@ class App extends Component {
 
   handleAddSpace = type => {
     let space;
-    if (type === 'sheep') {
-      space = Object.assign({}, this.state.randomOrderSpaces[0]);
-    } else if (type === 'cow') {
-      space = Object.assign({}, this.state.randomOrderSpaces[1]);
-    } else if (type === 'boar') {
-      space = Object.assign({}, this.state.randomOrderSpaces[2]);
-    } else if (type === 'stone') {
-      space = Object.assign({}, this.state.randomOrderSpaces[3]);
-    }
+    this.state.randomOrderSpaces.find(sp => {
+      if (type === sp.type) {
+        return space = Object.assign({}, sp)
+      }
+      return false
+    });
     space.id = this.state.id;
 
-   this.setState({
+    this.setState({
       id: this.state.id + 1,
       activeSpaces: [
         ...this.state.activeSpaces,
@@ -58,59 +56,24 @@ class App extends Component {
   }
 
   handleAccumulation = e => {
-    let stage;
-    let message;
     let currentRound = e.shiftKey ? (this.state.roundInfo.currentRound - 1)
                                   : (this.state.roundInfo.currentRound + 1);
-
-    if (currentRound >= 15 || currentRound <= -1) {
-      return;
-    }
-
-    if (currentRound === 14) {
-      stage = 6;
-    } else if (currentRound > 11) {
-      stage = 5;
-    } else if (currentRound > 9) {
-      stage = 4;
-    } else if (currentRound > 7) {
-      stage = 3;
-    } else if (currentRound > 4) {
-      stage = 2;
-    } else {
-      stage = 1;
-    }
-
-    this.state.roundInfo.harvestRounds.find(round => {
-      if (round === Number(currentRound)) {
-        if (round === 14) {
-          this.roundInfoAppearance(true);
-          return message = 'Last Harvest!';
-        }
-        this.roundInfoAppearance(true);
-        return message = 'Harvest this round!';
-      }
-      this.roundInfoAppearance(false);
-      return message = '';
-    });
+    if (currentRound >= 15 || currentRound <= -1) return
+    let stage = this.getStage(currentRound);
+    let message = this.getMessage(currentRound);
 
     this.setState({
       activeSpaces: this.state.activeSpaces.map(space => {
-
-        if (!e.shiftKey) {
-          let accumulatedAmount = space.accumulatedAmount + space.defaultAmount
-          return {
-          ...space,
-          accumulatedAmount: accumulatedAmount
-          }
-        }
-        let accumulatedAmount = space.accumulatedAmount - space.defaultAmount
+        let accumulatedAmount = !e.shiftKey ? (space.accumulatedAmount + space.defaultAmount)
+                                            : (space.accumulatedAmount - space.defaultAmount);
         if (accumulatedAmount <= 0) accumulatedAmount = 0;
         return {
           ...space,
-          accumulatedAmount: accumulatedAmount
+          accumulatedAmount: accumulatedAmount,
+          previousAmount: accumulatedAmount
         }
       }),
+      isHavestRound: (message !== ''),
       roundInfo: {
         ...this.state.roundInfo,
         currentRound: currentRound,
@@ -120,41 +83,44 @@ class App extends Component {
     });
   }
 
-  gather = (e, id) =>
-    this.setState({
-      activeSpaces: this.state.activeSpaces.map(space => {
-        if (space.id === id) {
-          if (e.shiftKey) {
-            return {
-              ...space,
-              accumulatedAmount: space.accumulatedAmount + 1
-            }
-          }
-          return {
-            ...space,
-            accumulatedAmount: 0
-          }
-        }
-        return space
-      })
-    })
-
-  toggleAddSpaceDropdown = () => {
-    let button = document.querySelector('.add-space-button');
-    let dropdown = document.querySelector('.add-space-dropdown');
-    button.classList.toggle('active');
-    dropdown.classList.toggle('hidden');
+  getMessage = currentRound => {
+    let message;
+    this.state.roundInfo.harvestRounds.find(round => {
+      if (round === Number(currentRound)) {
+        (round === 14) ? message = 'Last Harvest!'
+                       : message = 'Harvest this round!';
+        return message
+      }
+      message = '';
+    });
+    return message
   }
 
-  roundInfoAppearance = alert => {
-    let roundInfoContainer = document.querySelector('.round-info-container');
-    if (alert) {
-      roundInfoContainer.style.animation = 'pulse 0.4s';
-      return roundInfoContainer.style.background = '#f84a19';
+  getStage = currentRound => {
+    let stage = 0;
+    let roundStageMap = { "11": 5, "9": 4, "7": 3, "4": 2, "0": 1 }
+    for (let key in roundStageMap) {
+      if (currentRound > Number(key)) {
+        (currentRound === 14) ? stage = 6
+                              : stage = roundStageMap[key];
+      }
     }
-    roundInfoContainer.style.animation = 'none';
-    roundInfoContainer.style.background = '#6441a5';
+    return stage
   }
+
+  toggleProp = prop =>
+    this.setState({[prop]: !this.state[prop] })
+
+  toggleEditing = () =>
+    this.toggleProp('editing')
+
+  toggleDropdown = () =>
+    this.toggleProp('dropdownActive')
+
+  removeSpaceAt = id =>
+    this.setState({
+      activeSpaces: this.state.activeSpaces.filter(space => id !== space.id)
+    })
 
   render() {
     return (
@@ -163,11 +129,15 @@ class App extends Component {
         <InfoContainer toggleAddSpaceDropdown={ this.toggleAddSpaceDropdown }
                        roundInfo={ this.state.roundInfo }
                        handleAccumulation={ this.handleAccumulation }
-                       handleAddSpace={ this.handleAddSpace } />
+                       handleAddSpace={ this.handleAddSpace }
+                       toggleDropdown={ this.toggleDropdown }
+                       dropdownActive={ this.state.dropdownActive }
+                       isHarvestRound={ this.state.isHavestRound } />
         <SpaceContainer activeSpaces={ this.state.activeSpaces }
-                        gather={ this.gather } />
+                        spaceClickHandler={ this.spaceClickHandler }
+                        editing={ this.state.editing } />
       </div>
-    );
+    )
   }
 }
 
