@@ -17,4 +17,10 @@ const AddSpaceDropdown = props =>
       </div>
   </div>;
 
+AddSpaceDropdown.propTypes = {
+  dropdownActive: PropTypes.bool.isRequired,
+  toggleDropdown: PropTypes.func.isRequired,
+  handleAddSpace: PropTypes.func.isRequired
+}
+
 export default AddSpaceDropdown;
