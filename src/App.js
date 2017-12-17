@@ -29,7 +29,6 @@ class App extends Component {
       { previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Stone Quarry' }
     ],
     roundInfo: {
-      harvestRounds: [4, 7, 9, 11, 13, 14],
       currentRound: 1,
       currentStage: 1,
       isHarvestRound: false,
@@ -105,9 +104,11 @@ class App extends Component {
     });
   }
 
-  isHarvestRound = currentRound =>
-    this.state.roundInfo.harvestRounds.some(round =>
-      (round === Number(currentRound)))
+  isHarvestRound = currentRound => {
+    let harvestRounds = [4, 7, 9, 11, 13, 14];
+    return harvestRounds.some(round =>
+      (round === currentRound))
+  };
 
   getMessage = (currentRound, isHarvestRound) => {
     if (isHarvestRound) {
