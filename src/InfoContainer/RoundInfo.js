@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const RoundInfo = props =>
   <div className={ 'round-info-container ' +
-                   (props.isHarvestRound ? 'alert ' : '') +
+                   (props.roundInfo.isHarvestRound ? 'alert ' : '') +
                    ((props.roundInfo.currentRound === 14) ? 'alert-final ' : '') }>
     <div className="round-info">
       <h1>Round: { props.roundInfo.currentRound }</h1>

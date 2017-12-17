@@ -6,8 +6,7 @@ import Actions from './Actions';
 
 const InfoContainer = props =>
   <nav>
-    <RoundInfo roundInfo={ props.roundInfo }
-               isHarvestRound={ props.isHarvestRound } />
+    <RoundInfo roundInfo={ props.roundInfo } />
     <Actions toggleDropdown={ props.toggleDropdown }
              dropdownActive={ props.dropdownActive }
              handleAccumulation={ props.handleAccumulation }
@@ -19,8 +18,7 @@ InfoContainer.propTypes = {
   toggleDropdown: PropTypes.func.isRequired,
   dropdownActive: PropTypes.bool.isRequired,
   handleAccumulation: PropTypes.func.isRequired,
-  handleAddSpace: PropTypes.func.isRequired,
-  isHarvestRound: PropTypes.bool.isRequired
+  handleAddSpace: PropTypes.func.isRequired
 }
 
 export default InfoContainer;

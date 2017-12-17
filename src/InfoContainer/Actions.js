@@ -8,7 +8,6 @@ const Actions = props =>
     <div tabIndex="0"
          className="accumulate-button"
          onClick={ e => props.handleAccumulation(e) } >accumulate</div>
-    {/* dropdown needs to be its own component */}
     <AddSpaceDropdown toggleDropdown={ props.toggleDropdown }
                       dropdownActive={ props.dropdownActive }
                       handleAddSpace={ props.handleAddSpace } />

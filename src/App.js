@@ -9,7 +9,7 @@ class App extends Component {
   state = {
     dropdownActive: false,
     editing: false,
-    isHavestRound: false,
+    id: 8,
     // could generate these based off one object
     activeSpaces: [
       { id: 0, previousAmount: 0, defaultAmount: 1, accumulatedAmount: 1, type: 'wood', name: 'Copse' },
@@ -32,6 +32,7 @@ class App extends Component {
       harvestRounds: [4, 7, 9, 11, 13, 14],
       currentRound: 1,
       currentStage: 1,
+      isHarvestRound: false,
       message: ''
     }
   }
@@ -59,13 +60,15 @@ class App extends Component {
     let currentRound = e.shiftKey ? (this.state.roundInfo.currentRound - 1)
                                   : (this.state.roundInfo.currentRound + 1);
     if (currentRound >= 15 || currentRound <= -1) return
+    let harvestRound = this.isHarvestRound(currentRound);
     let stage = this.getStage(currentRound);
-    let message = this.getMessage(currentRound);
+    let message = this.getMessage(currentRound, harvestRound);
 
     this.setState({
       activeSpaces: this.state.activeSpaces.map(space => {
-        let accumulatedAmount = !e.shiftKey ? (space.accumulatedAmount + space.defaultAmount)
-                                            : (space.accumulatedAmount - space.defaultAmount);
+        let accumulatedAmount = !e.shiftKey
+                                ? (space.accumulatedAmount + space.defaultAmount)
+                                : (space.accumulatedAmount - space.defaultAmount);
         if (accumulatedAmount <= 0) accumulatedAmount = 0;
         return {
           ...space,
@@ -73,11 +76,11 @@ class App extends Component {
           previousAmount: accumulatedAmount
         }
       }),
-      isHavestRound: (message !== ''),
       roundInfo: {
         ...this.state.roundInfo,
         currentRound: currentRound,
         currentStage: stage,
+        isHarvestRound: harvestRound,
         message: message
       }
     });
@@ -91,7 +94,7 @@ class App extends Component {
     this.setState({
       activeSpaces: this.state.activeSpaces.map(space => {
         if (space.id === id) {
-          let amount = e.shiftKey ? space.accumulatedAmount + 1: 0;
+          let amount = e.shiftKey ? space.accumulatedAmount + 1 : 0;
           return {
             ...space,
             accumulatedAmount: amount
@@ -102,17 +105,16 @@ class App extends Component {
     });
   }
 
-  getMessage = currentRound => {
-    let message;
-    this.state.roundInfo.harvestRounds.find(round => {
-      if (round === Number(currentRound)) {
-        (round === 14) ? message = 'Last Harvest!'
-                       : message = 'Harvest this round!';
-        return message
-      }
-      message = '';
-    });
-    return message
+  isHarvestRound = currentRound =>
+    this.state.roundInfo.harvestRounds.some(round =>
+      (round === Number(currentRound)))
+
+  getMessage = (currentRound, isHarvestRound) => {
+    if (isHarvestRound) {
+      return (currentRound === 14) ? 'Last Harvest!'
+                                   : 'Harvest this round!';
+    }
+    return ''
   }
 
   getStage = currentRound => {
@@ -150,8 +152,7 @@ class App extends Component {
                        handleAccumulation={ this.handleAccumulation }
                        handleAddSpace={ this.handleAddSpace }
                        toggleDropdown={ this.toggleDropdown }
-                       dropdownActive={ this.state.dropdownActive }
-                       isHarvestRound={ this.state.isHavestRound } />
+                       dropdownActive={ this.state.dropdownActive } />
         <SpaceContainer activeSpaces={ this.state.activeSpaces }
                         spaceClickHandler={ this.spaceClickHandler }
                         editing={ this.state.editing } />
