@@ -316,7 +316,7 @@ MAIN BUTTONS
   z-index: 10000;
 }
 
-.add-space-dropdown a:active{
+.add-space-dropdown button:active{
   background: #2a0845;
 }
 
