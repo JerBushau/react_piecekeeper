@@ -83,6 +83,25 @@ class App extends Component {
     });
   }
 
+  spaceClickHandler = (e, id) => {
+    if (e.ctrlKey) return this.toggleEditing();
+    if (e.target.tagName === 'BUTTON') {
+      return this.removeSpaceAt(id);
+    }
+    this.setState({
+      activeSpaces: this.state.activeSpaces.map(space => {
+        if (space.id === id) {
+          let amount = e.shiftKey ? space.accumulatedAmount + 1: 0;
+          return {
+            ...space,
+            accumulatedAmount: amount
+          }
+        }
+        return space
+      })
+    });
+  }
+
   getMessage = currentRound => {
     let message;
     this.state.roundInfo.harvestRounds.find(round => {
