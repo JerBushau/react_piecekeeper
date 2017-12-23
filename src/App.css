@@ -213,6 +213,7 @@ SPACE MENU BUTTONS
 }
 
 .delete-button {
+  cursor: pointer;
   background: rgba(249, 0, 0, 0.8);
   left: calc(100% - 27px);
   right: 6px;
@@ -308,6 +309,7 @@ MAIN BUTTONS
   align-items: center;
   text-decoration: none;
   padding: 0.7em;
+  min-height: 40px;
   width: 95px;
   margin: 0.3em;
   background: #6441a5;
@@ -349,6 +351,58 @@ ROUND INFO
  /* background: linear-gradient(to bottom, #6441a5, #2a0845);
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;*/
+}
+
+/*
+INSTRUCTIONS 
+*/
+
+.instruction-toggle {
+  cursor: pointer;
+  align-self: flex-start;
+  margin: 10px;
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  height: 40px;
+  width: 40px;
+  background: whitesmoke;
+  padding: 10px;
+  box-shadow: 0 5px 15px rgba(68, 68, 68, 0.6);
+  transition: all 0.7s;
+}
+
+.instructions {
+  position: absolute;
+  left: 0;
+  top: 50px;
+  width: max-content;
+  max-width: 600px;
+  background: #6441a5;  
+  box-shadow: 0 6px 20px rgba(68, 68, 68, 0.6);
+  z-index: 10000;
+  padding: 15px;
+}
+
+.instructions ul {
+  padding-left: 25px;
+}
+
+.instruction-title {
+  font-weight: bold;
+  list-style: none;
+  text-decoration: underline;
+  margin: 5px;
+}
+
+.instructions h1 {
+  margin-bottom: 0;
+}
+
+.instructions p {
+  margin-top: 0;
 }
 
 /*

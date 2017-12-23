@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 
 const AddSpaceDropdown = props =>
   <div className={ 'add-space-button ' + (props.dropdownActive ? 'active' : '') }
-         onClick={() => props.toggleDropdown() }>add space
+         onClick={ () => props.toggleDropdown() }>add space
       <div className={ 'add-space-dropdown ' + (props.dropdownActive ? '' : 'hidden') }>
         <button className="add-sheep"
                 onClick={ () => props.handleAddSpace('sheep') }>Sheep</button>
