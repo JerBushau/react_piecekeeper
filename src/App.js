@@ -42,6 +42,13 @@ class App extends Component {
     let model = this.state.randomOrderSpaces.find(sp => (type === sp.type));
     let space = Object.assign({}, model);
     let id = this.state.id;
+    let count = 1;
+    this.state.activeSpaces.forEach(sp => {
+      if (type === sp.type) {
+        count++
+      }
+    }) 
+    if (count > 1) space.name = space.name + ' ' + count
     space.id = id;
     id++;
     this.setState({

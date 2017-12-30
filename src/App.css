@@ -370,8 +370,19 @@ INSTRUCTIONS
   width: 40px;
   background: whitesmoke;
   padding: 10px;
+  color: #fff;
   box-shadow: 0 5px 15px rgba(68, 68, 68, 0.6);
-  transition: all 0.7s;
+  transition: all 0.4s ease;
+}
+
+.instruction-toggle .icon {
+  font-size: 1.2em;
+  font-weight: bold;
+  color: #000;
+}
+
+.instruction-toggle.active .icon {
+  color: #fff;
 }
 
 .instructions {
@@ -379,30 +390,73 @@ INSTRUCTIONS
   left: 0;
   top: 50px;
   width: max-content;
-  max-width: 600px;
-  background: #6441a5;  
-  box-shadow: 0 6px 20px rgba(68, 68, 68, 0.6);
+  max-width: 700px;
+  background-image: linear-gradient(to top right, #8366b7, #6441a5 60%);  
+  box-shadow: 0 6px 20px rgba(68, 68, 68, 0.7);
   z-index: 10000;
-  padding: 15px;
+  padding: 25px;
+  transition: all 0.4s ease; 
+}
+
+.instructions code {
+  font-weight: bold;
+  background: #4e3380;
+  border-bottom: 2px solid #432b6e;
+  padding: 2px;
 }
 
 .instructions ul {
   padding-left: 25px;
+  list-style: triangle;
+}
+
+.instructions li {
+  margin: 5px;
+}
+
+.instructions ul ul {
+  padding-left: 15px;
 }
 
 .instruction-title {
+  display: inline-flex;
+  border-bottom: 1px solid #fff;
+  font-size: 1.2223em;
   font-weight: bold;
   list-style: none;
-  text-decoration: underline;
-  margin: 5px;
+  margin: 8px; 
 }
 
 .instructions h1 {
   margin-bottom: 0;
+  text-shadow: 0 3px #444;
 }
 
 .instructions p {
   margin-top: 0;
+  text-shadow: 0 1px #444;
+
+}
+
+.red,
+.green {
+  display: inline-flex;
+  justify-content: center;
+  align-items: center;
+  height: 27px;
+  width: 27px;
+  font-size: 0.87em;
+  margin: 3px 3px -1px 3px;
+  box-shadow: 0 1px 2px rgba(68, 68, 68, 0.8);
+  color: #000;  
+}
+
+.red {
+  background: rgba(249, 0, 0, 0.8);
+}
+
+.green {
+  background: rgba(53, 255, 7, 0.9);
 }
 
 /*
