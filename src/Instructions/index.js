@@ -19,7 +19,7 @@ const Instructions = props =>
         <ul>
           <li className="instruction-title">Editing Mode</li>
           <li><code>ctrl+click</code> on any space to display editing options.</li>
-          <li><span className="green">3</span> The green button displays the value of the space as it was at the beginning current round, click it to set the current value of the space to this value. This provides a quick-fix in the case a space was unintentionally gathered.</li>
+          <li><span className="green">3</span> The green button displays the value of the space as it was at the beginning of the current round, click it to set the current value of the space to this value. (This provides a quick-fix in the case a space was unintentionally gathered.)</li>
           <li><span className="red">×</span> The red button allows you to remove added spaces from the board.</li>
         </ul>
       </ul>
