@@ -13,6 +13,7 @@ class App extends Component {
     editing: false,
     id: 8,
     // could generate these based off one object
+    spaceHistory: [],
     activeSpaces: [
       { id: 0, previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'wood', name: 'Copse' },
       { id: 1, previousAmount: 2, defaultAmount: 2, accumulatedAmount: 2, type: 'wood', name: 'Grove' },
@@ -28,7 +29,7 @@ class App extends Component {
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'sheep', name: 'Sheep' },
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'cow', name: 'Cattle' },
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'boar', name: 'Pig' },
-      { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Stone Quarry' }
+      { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Eastern Quarry' }
     ],
     roundInfo: {
       currentRound: 1,
@@ -43,12 +44,15 @@ class App extends Component {
     let space = Object.assign({}, model);
     let id = this.state.id;
     let count = 1;
-    this.state.activeSpaces.forEach(sp => {
-      if (type === sp.type) {
-        count++
-      }
-    }) 
-    if (count > 1) space.name = space.name + ' ' + count
+    if (space.type === 'stone') {
+      this.state.activeSpaces.forEach(sp => {
+        if (type === sp.type) {
+          count++
+        }
+      })
+    }
+    if (count > 1) space.name = 'Western Quarry';
+    if (count > 2) space.name = 'oops...'
     space.id = id;
     id++;
     this.setState({
@@ -80,6 +84,7 @@ class App extends Component {
           previousAmount: accumulatedAmount
         }
       }),
+      spaceHistory: [ ...this.state.spaceHistory, this.state.activeSpaces ],
       roundInfo: {
         currentRound: currentRound,
         currentStage: currentStage,
@@ -130,7 +135,7 @@ class App extends Component {
         return space
       })
     });
-  } 
+  }
   isHarvestRound = currentRound => {
     let harvestRounds = [4, 7, 9, 11, 13, 14];
 
@@ -157,24 +162,24 @@ class App extends Component {
     return 0
   }
 
-  toggleProp = prop => this.setState({ [prop]: !this.state[prop] }) 
+  toggleProp = prop => this.setState({ [prop]: !this.state[prop] })
 
-  toggleEditing = () => this.toggleProp('editing') 
+  toggleEditing = () => this.toggleProp('editing')
 
   toggleDropdown = () => this.toggleProp('dropdownActive')
 
   toggleInstructions = () => this.toggleProp('instructionsActive')
 
-  removeSpaceAt = id => { 
-    this.setState({ 
-      activeSpaces: this.state.activeSpaces.filter(space => id !== space.id) 
+  removeSpaceAt = id => {
+    this.setState({
+      activeSpaces: this.state.activeSpaces.filter(space => id !== space.id)
     })
   }
 
   render() {
     return (
       <div className="App wrapper">
-        <Instructions toggleInstructions={ this.toggleInstructions } 
+        <Instructions toggleInstructions={ this.toggleInstructions }
                       instructionsActive={ this.state.instructionsActive  } />
         <Header />
         <InfoContainer toggleAddSpaceDropdown={ this.toggleAddSpaceDropdown }
