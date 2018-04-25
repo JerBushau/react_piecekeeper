@@ -7,13 +7,13 @@ import InfoContainer from './InfoContainer';
 import SpaceContainer from './SpaceContainer';
 
 class App extends Component {
-  state = {
+  state = JSON.parse(sessionStorage.getItem('apk-state')) || {
     instructionsActive: false,
     dropdownActive: false,
     editing: false,
     id: 8,
     // could generate these based off one object
-    spaceHistory: [],
+    gameHistory: {},
     activeSpaces: [
       { id: 0, previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'wood', name: 'Copse' },
       { id: 1, previousAmount: 2, defaultAmount: 2, accumulatedAmount: 2, type: 'wood', name: 'Grove' },
@@ -49,7 +49,7 @@ class App extends Component {
         if (type === sp.type) {
           count++
         }
-      })
+      });
     }
     if (count > 1) space.name = 'Western Quarry';
     if (count > 2) space.name = 'oops...'
@@ -61,7 +61,7 @@ class App extends Component {
         ...this.state.activeSpaces,
         space
       ]
-    });
+    }, () => this.persistToSessionStorage(this.state));
   }
 
   handleAccumulation = e => {
@@ -84,14 +84,21 @@ class App extends Component {
           previousAmount: accumulatedAmount
         }
       }),
-      spaceHistory: [ ...this.state.spaceHistory, this.state.activeSpaces ],
+      gameHistory: {
+        ...this.state.gameHistory,
+        [`round-${this.state.roundInfo.currentRound}`]: this.state.activeSpaces
+      },
       roundInfo: {
         currentRound: currentRound,
         currentStage: currentStage,
         isHarvestRound: harvestRound,
         message: message
       }
-    });
+    }, () => this.persistToSessionStorage());
+  }
+
+  persistToSessionStorage() {
+    sessionStorage.setItem('apk-state', JSON.stringify(this.state))
   }
 
   // need better name
@@ -134,7 +141,7 @@ class App extends Component {
         }
         return space
       })
-    });
+    }, () => this.persistToSessionStorage(this.state));
   }
   isHarvestRound = currentRound => {
     let harvestRounds = [4, 7, 9, 11, 13, 14];
