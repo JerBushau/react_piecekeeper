@@ -29,7 +29,7 @@ class App extends Component {
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'sheep', name: 'Sheep' },
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'cow', name: 'Cattle' },
       { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'boar', name: 'Pig' },
-      { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Eastern Quarry' }
+      { previousAmount: 1, defaultAmount: 1, accumulatedAmount: 1, type: 'stone', name: 'Western Quarry' }
     ],
     roundInfo: {
       currentRound: 1,
@@ -51,7 +51,7 @@ class App extends Component {
         }
       });
     }
-    if (count > 1) space.name = 'Western Quarry';
+    if (count > 1) space.name = 'Eastern Quarry';
     if (count > 2) space.name = 'oops...'
     space.id = id;
     id++;
